@@ -1,4 +1,4 @@
-//Simple hackish attempt at implementing a Pascal's triangle calculating program
+/* A simple attempt at implementing a Pascal's triangle calculating program */
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -18,7 +18,7 @@ int loop() {
 	if (maxRows<=MAX_DISPLAYABLE) {
 
 	int row;
-	for (row=0;row<maxRows+1;row++) {
+	for (row=1;row<maxRows+1;row++) {
 			printf("%d ",row);
 			int space;
 				for(space=0; space<(maxRows-row)/2+1; space++) {
