@@ -1,5 +1,4 @@
-use ratatui::layout::Rect;
-use crate::ui::display::UIAreas;
+
 /*
     FrameHandlers are "dumb" views that simply draw their state (T) or other given input to a terminal frame (the screen)
  */

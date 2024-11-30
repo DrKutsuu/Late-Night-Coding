@@ -1,31 +1,15 @@
-use crossterm::event;
-use crossterm::event::{KeyCode, KeyEvent, KeyEventKind};
-use rand::rngs::StdRng;
-use rand_chacha::ChaCha12Rng;
-use rand_pcg::{Lcg64Xsh32, Pcg64};
-use ratatui::{DefaultTerminal, Frame};
+use ratatui::{DefaultTerminal};
 use ratatui::style::Stylize;
-use ratatui::widgets::Paragraph;
-use crate::demo::mordor::{MordorData, MordorFrameHandler};
-use crate::error::UnexpectedError;
-use crate::ui::framehandler::FrameHandler;
 
 mod error;
 mod ui;
 mod demo;
+mod io;
 
-
-fn check_for_escape() -> Result<bool, UnexpectedError> {
-    if let event::Event::Key(key) = event::read()? {
-        if key.kind == KeyEventKind::Press && key.code == KeyCode::Char('q') {
-            Ok(true)
-        } else {
-            Ok(false)
-        }
-    } else { 
-        Ok(false)
-    }
-}
+use crate::demo::mordor::{MordorData, MordorFrameHandler};
+use crate::error::UnexpectedError;
+use crate::io::input::check_for_escape;
+use crate::ui::framehandler::FrameHandler;
 
 fn main() -> Result<(), UnexpectedError> {
     let mut terminal = ratatui::init();
@@ -45,11 +29,11 @@ fn main_loop(mut terminal: DefaultTerminal) -> Result<(), UnexpectedError> {
             mordor_fh.handle_frame(frame, &mut mordor_data);
         })?;
         
-        // match check_for_escape() {
-        //     Ok(pressed) => {
-        //         if pressed { return Ok(()) }
-        //     }, 
-        //     _ => {}
-        // }
+        match check_for_escape() {
+            Ok(pressed) => {
+                if pressed { return Ok(()) }
+            }, 
+            _ => {}
+        }
     }
 }
